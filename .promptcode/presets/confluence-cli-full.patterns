@@ -1,0 +1,11 @@
+# Full codebase patterns for confluence-cli
+go.mod
+go.sum
+Makefile
+README.md
+cmd/**/*.go
+internal/**/*.go
+pkg/**/*.go
+skills/confluence/SKILL.md
+skills/confluence/rules/*.md
+scripts/*.sh
