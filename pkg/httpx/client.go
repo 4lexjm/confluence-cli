@@ -13,7 +13,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	confluencecfg "github.com/atlassian/confluence-cli/internal/config"
@@ -41,9 +40,6 @@ type Client struct {
 		InitialBackoff time.Duration
 		MaxBackoff     time.Duration
 	}
-
-	rateMu sync.RWMutex
-	rate   RateLimit
 }
 
 // RateLimit captures the last observed X-RateLimit-* headers.
