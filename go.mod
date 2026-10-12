@@ -1,9 +1,9 @@
 module github.com/atlassian/confluence-cli
 
-go 1.22
+go 1.24.0
 
 require (
-	github.com/itchyny/gojq v0.12.16
+	github.com/itchyny/gojq v0.12.19
 	github.com/jcmturner/gokrb5/v8 v8.4.4
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
@@ -20,7 +20,7 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/itchyny/timefmt-go v0.1.6 // indirect
+	github.com/itchyny/timefmt-go v0.1.8 // indirect
 	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
 	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
 	github.com/jcmturner/gofork v1.7.6 // indirect
@@ -29,5 +29,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/crypto v0.24.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 )
