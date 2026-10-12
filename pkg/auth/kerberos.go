@@ -28,20 +28,29 @@ func (e *KerberosExpiredError) Error() string {
 	return fmt.Sprintf("Kerberos ticket expired or invalid: %v\nHint: run `kinit` to obtain a fresh ticket", e.cause)
 }
 
+// loadKrb5Config attempts to load krb5.conf from KRB5_CONFIG env var, standard
+// system locations, or returns an initialized default config if none is found.
+func loadKrb5Config() (*config.Config, error) {
+	if cfgPath := os.Getenv("KRB5_CONFIG"); cfgPath != "" {
+		return config.Load(cfgPath)
+	}
+	for _, path := range []string{"/etc/krb5.conf", "/etc/krb5/krb5.conf"} {
+		if _, err := os.Stat(path); err == nil {
+			return config.Load(path)
+		}
+	}
+	return config.New(), nil
+}
+
 // NewKerberosTransport creates a KerberosTransport.
 func NewKerberosTransport(inner http.RoundTripper) (*KerberosTransport, error) {
 	if inner == nil {
 		inner = http.DefaultTransport
 	}
 
-	confPath := os.Getenv("KRB5_CONFIG")
-	if confPath == "" {
-		confPath = "/etc/krb5.conf"
-	}
-
-	krb5Conf, err := config.Load(confPath)
+	krb5Conf, err := loadKrb5Config()
 	if err != nil {
-		return nil, fmt.Errorf("load krb5 config (%s): %w\nHint: ensure krb5.conf exists", confPath, err)
+		return nil, fmt.Errorf("load krb5.conf: %w", err)
 	}
 
 	ccachePath := os.Getenv("KRB5CCNAME")

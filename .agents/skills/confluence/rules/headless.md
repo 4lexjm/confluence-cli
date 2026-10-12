@@ -11,12 +11,12 @@ using environment variables when present.
 | Variable | Description | Example |
 |---|---|---|
 | `CONFLUENCE_HOST` | Confluence base URL | `https://myorg.atlassian.net` or `https://confluence.corp.internal` |
-| `CONFLUENCE_TOKEN` | API Token (Cloud) or PAT (Data Center) | `ATATT3xFfGF0...` |
+| `CONFLUENCE_TOKEN` | API Token (Cloud) or PAT (Data Center) | `my-api-token` |
 | `CONFLUENCE_EMAIL` | Account email (Required for Cloud Basic Auth) | `ci-bot@myorg.com` |
 | `CONFLUENCE_USER` | Username for DC Basic Auth | `srv_confluence` |
 | `CONFLUENCE_SPACE` | Default space key | `ENG` |
 | `CONFLUENCE_AUTH_METHOD` | Explicit auth mechanism: `basic`, `bearer`, `session-cookie`, `kerberos` | `bearer` |
-| `CONFLUENCE_SESSION_COOKIE` | Raw `JSESSIONID` cookie string | `0A1B2C3D4E5F...` |
+| `CONFLUENCE_SESSION_COOKIE` | Raw `JSESSIONID` cookie string | `my-session-cookie` |
 | `CONFLUENCE_HTTP_DEBUG` | Print full HTTP requests & responses to stderr | `1` |
 
 ## CI Pipeline Examples

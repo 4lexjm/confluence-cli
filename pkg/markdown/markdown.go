@@ -13,17 +13,17 @@ import (
 )
 
 var (
-	headingRegex   = regexp.MustCompile(`^(#{1,6})\s+(.*)$`)
-	boldRegex      = regexp.MustCompile(`\*\*([^*]+)\*\*`)
-	italicRegex    = regexp.MustCompile(`(?:\*([^*]+)\*|_([^_]+)_)`)
-	codeInlineReg  = regexp.MustCompile("`([^`]+)`")
-	linkRegex      = regexp.MustCompile(`\[([^\]]+)\]\(([^)]+)\)`)
-	bulletListReg  = regexp.MustCompile(`^[-*+]\s+(.*)$`)
-	numListReg     = regexp.MustCompile(`^\d+\.\s+(.*)$`)
-	blockquoteReg  = regexp.MustCompile(`^>\s+(.*)$`)
-	horizRuleReg   = regexp.MustCompile(`^(?:---+|\*\*\*+|___+)$`)
-	tableRowReg    = regexp.MustCompile(`^\|(.+)\|$`)
-	tableSepReg    = regexp.MustCompile(`^\|(\s*[-:]+[-| :]*)\|$`)
+	headingRegex  = regexp.MustCompile(`^(#{1,6})\s+(.*)$`)
+	boldRegex     = regexp.MustCompile(`\*\*([^*]+)\*\*`)
+	italicRegex   = regexp.MustCompile(`(?:\*([^*]+)\*|_([^_]+)_)`)
+	codeInlineReg = regexp.MustCompile("`([^`]+)`")
+	linkRegex     = regexp.MustCompile(`\[([^\]]+)\]\(([^)]+)\)`)
+	bulletListReg = regexp.MustCompile(`^[-*+]\s+(.*)$`)
+	numListReg    = regexp.MustCompile(`^\d+\.\s+(.*)$`)
+	blockquoteReg = regexp.MustCompile(`^>\s+(.*)$`)
+	horizRuleReg  = regexp.MustCompile(`^(?:---+|\*\*\*+|___+)$`)
+	tableRowReg   = regexp.MustCompile(`^\|(.+)\|$`)
+	tableSepReg   = regexp.MustCompile(`^\|(\s*[-:]+[-| :]*)\|$`)
 )
 
 // MarkdownToStorage converts Markdown text into Confluence XHTML storage format.

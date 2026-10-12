@@ -176,11 +176,11 @@ func (s *Server) toolsList() []map[string]any {
 			"inputSchema": map[string]any{
 				"type": "object",
 				"properties": map[string]any{
-					"query":       map[string]any{"type": "string", "description": "Free text search term"},
-					"cql":         map[string]any{"type": "string", "description": "Explicit CQL expression (e.g. `space = 'ENG' AND type = page`)"},
-					"space":       map[string]any{"type": "string", "description": "Filter results by space key"},
-					"type":        map[string]any{"type": "string", "description": "Filter by content type: page, blogpost, attachment", "enum": []string{"page", "blogpost", "attachment"}},
-					"limit":       map[string]any{"type": "integer", "description": "Maximum number of results to return (default 25)"},
+					"query": map[string]any{"type": "string", "description": "Free text search term"},
+					"cql":   map[string]any{"type": "string", "description": "Explicit CQL expression (e.g. `space = 'ENG' AND type = page`)"},
+					"space": map[string]any{"type": "string", "description": "Filter results by space key"},
+					"type":  map[string]any{"type": "string", "description": "Filter by content type: page, blogpost, attachment", "enum": []string{"page", "blogpost", "attachment"}},
+					"limit": map[string]any{"type": "integer", "description": "Maximum number of results to return (default 25)"},
 				},
 			},
 		},
