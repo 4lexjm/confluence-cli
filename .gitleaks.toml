@@ -1,0 +1,116 @@
+# Gitleaks configuration for confluence-cli
+# Reference: https://github.com/gitleaks/gitleaks
+
+title = "confluence-cli gitleaks config"
+minVersion = "v8.25.0"
+
+[extend]
+# Extend the base config with all default rules
+useDefault = true
+
+[[allowlists]]
+description = "Allowlist for test fixtures and known false positives"
+regexTarget = "secret"
+
+# Paths to exclude from scanning
+paths = [
+  '''\.gitleaks\.toml$''',
+  '''(.*?)(jpg|gif|doc|pdf|bin|png|svg)$''',
+  '''testdata\/''',
+  '''fixtures\/''',
+  '''go\.(mod|sum)$''',
+  '''vendor\.json''',
+  '''package-lock\.json''',
+  '''package\.json''',
+  '''node_modules\/''',
+]
+
+# Common test values and patterns that are not real secrets
+regexes = [
+  '''my-personal-access-token''',
+  '''my-api-token''',
+  '''my-pat''',
+  '''my-session-cookie''',
+  '''test-api-key''',
+  '''fake-token''',
+  '''dummy-secret''',
+  '''example\.com''',
+  '''localhost''',
+  '''127\.0\.0\.1''',
+  '''192\.168\..*''',
+  '''0\.0\.0\.0''',
+]
+
+# Allow placeholder values
+stopwords = [
+  "EXAMPLE",
+  "example",
+  "CHANGEME",
+  "changeme",
+  "PLACEHOLDER",
+  "placeholder",
+]
+
+# ============================================================================
+# Custom rules for Confluence/Atlassian-specific secrets
+# ============================================================================
+
+[[rules]]
+id = "atlassian-api-token"
+description = "Atlassian Cloud API Token"
+regex = '''(?i)(confluence|atlassian)[_-]?(api[_-]?)?token\s*[:=]\s*['"]?([A-Za-z0-9_-]{20,})['"]?'''
+secretGroup = 3
+entropy = 3.0
+keywords = [
+  "confluence",
+  "atlassian",
+  "token",
+]
+
+[rules.allowlist]
+description = "Ignore known test tokens and documentation placeholders"
+regexes = [
+  '''my-api-token''',
+  '''my-pat''',
+  '''test-token''',
+  '''fake-token''',
+  '''example-token''',
+]
+
+[[rules]]
+id = "confluence-pat"
+description = "Confluence Personal Access Token (PAT)"
+regex = '''(?i)(confluence[_-]?)?(pat|personal[_-]?access[_-]?token)\s*[:=]\s*['"]?([A-Za-z0-9+/=]{20,})['"]?'''
+secretGroup = 3
+entropy = 3.0
+keywords = [
+  "confluence",
+  "pat",
+]
+
+[rules.allowlist]
+description = "Ignore placeholder PAT values"
+regexes = [
+  '''my-pat''',
+  '''test-pat''',
+  '''fake-pat''',
+]
+
+[[rules]]
+id = "atlassian-session-cookie"
+description = "Atlassian JSESSIONID Session Cookie"
+regex = '''(?i)(JSESSIONID)\s*[:=]\s*['"]?([A-Za-z0-9]{32,})['"]?'''
+secretGroup = 2
+entropy = 3.0
+keywords = [
+  "JSESSIONID",
+  "jsessionid",
+]
+
+[rules.allowlist]
+description = "Ignore documentation and test cookie values"
+regexes = [
+  '''my-session-cookie''',
+  '''valid-cookie''',
+  '''test-cookie''',
+]
