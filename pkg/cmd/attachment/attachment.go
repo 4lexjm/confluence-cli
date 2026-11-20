@@ -96,7 +96,7 @@ func newUploadCmd(f *cmdutil.Factory) *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("open file %q: %w", filePath, err)
 			}
-			defer file.Close()
+			defer func() { _ = file.Close() }()
 
 			filename := customName
 			if filename == "" {
@@ -166,7 +166,7 @@ func newDownloadCmd(f *cmdutil.Factory) *cobra.Command {
 			if err != nil {
 				return fmt.Errorf("create output file %q: %w", destPath, err)
 			}
-			defer outFile.Close()
+			defer func() { _ = outFile.Close() }()
 
 			if err := cl.DownloadAttachment(cmd.Context(), downloadLink, outFile); err != nil {
 				return err

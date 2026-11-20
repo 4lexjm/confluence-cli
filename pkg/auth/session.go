@@ -74,7 +74,7 @@ func (t *SessionTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	}
 
 	if isSessionExpired(resp) {
-		resp.Body.Close()
+		_ = resp.Body.Close()
 		return nil, &SessionExpiredError{Host: t.host}
 	}
 
