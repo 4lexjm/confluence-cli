@@ -534,7 +534,7 @@ func (c *Client) DownloadAttachment(ctx context.Context, downloadPath string, w 
 	if err != nil {
 		return fmt.Errorf("download attachment: %w", err)
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("download failed: HTTP %d", resp.StatusCode)
@@ -658,7 +658,7 @@ func (c *Client) Raw(ctx context.Context, method, path string, body any, headers
 	if err != nil {
 		return nil, nil, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {

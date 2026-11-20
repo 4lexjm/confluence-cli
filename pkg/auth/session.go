@@ -74,7 +74,7 @@ func (t *SessionTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 	}
 
 	if isSessionExpired(resp) {
-		resp.Body.Close()
+		_ = resp.Body.Close()
 		return nil, &SessionExpiredError{Host: t.host}
 	}
 
@@ -115,12 +115,11 @@ func CaptureSessionViaBrowser(ctx context.Context, confluenceBaseURL string, b b
 
 	cookieCh := make(chan string, 1)
 
-	proxy := httputil.NewSingleHostReverseProxy(target)
-	originalDirector := proxy.Director
-	proxy.Director = func(req *http.Request) {
-		originalDirector(req)
-		req.Host = target.Host
-		req.Header.Del("X-Forwarded-For")
+	proxy := &httputil.ReverseProxy{
+		Rewrite: func(preq *httputil.ProxyRequest) {
+			preq.SetURL(target)
+			preq.Out.Host = target.Host
+		},
 	}
 
 	proxy.ModifyResponse = func(resp *http.Response) error {

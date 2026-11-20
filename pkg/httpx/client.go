@@ -230,7 +230,7 @@ func (c *Client) Do(req *http.Request, v any) (*http.Response, error) {
 			if !isRetryable(attempt, c.retry.MaxAttempts, req.Method, resp.StatusCode) {
 				break
 			}
-			resp.Body.Close()
+			_ = resp.Body.Close()
 			continue
 		}
 		break
@@ -241,7 +241,7 @@ func (c *Client) Do(req *http.Request, v any) (*http.Response, error) {
 	}
 
 	if resp.StatusCode >= 400 {
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 		body, _ := io.ReadAll(resp.Body)
 		var apiErr struct {
 			Message   string   `json:"message"`
@@ -271,7 +271,7 @@ func (c *Client) Do(req *http.Request, v any) (*http.Response, error) {
 	}
 
 	if v != nil && resp.StatusCode < 300 {
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 		body, readErr := io.ReadAll(resp.Body)
 		if readErr != nil {
 			return resp, fmt.Errorf("read response body: %w", readErr)

@@ -22,7 +22,7 @@ func Main(version string) int {
 	}
 
 	if os.Getenv("CONFLUENCE_HTTP_DEBUG") == "1" {
-		os.Setenv("CONFLUENCE_HTTP_DEBUG", "1")
+		_ = os.Setenv("CONFLUENCE_HTTP_DEBUG", "1")
 	}
 
 	rootCmd := root.NewCmdRoot(f, version)
