@@ -67,7 +67,7 @@ func MarkdownToStorage(md string) string {
 				// End code block
 				buf.WriteString("<ac:structured-macro ac:name=\"code\">\n")
 				if codeLanguage != "" {
-					buf.WriteString(fmt.Sprintf("<ac:parameter ac:name=\"language\">%s</ac:parameter>\n", html.EscapeString(codeLanguage)))
+					fmt.Fprintf(&buf, "<ac:parameter ac:name=\"language\">%s</ac:parameter>\n", html.EscapeString(codeLanguage))
 				}
 				buf.WriteString("<ac:plain-text-body><![CDATA[")
 				buf.WriteString(strings.Join(codeLines, "\n"))
@@ -144,7 +144,7 @@ func MarkdownToStorage(md string) string {
 			flushLists()
 			level := len(m[1])
 			content := formatInline(m[2])
-			buf.WriteString(fmt.Sprintf("<h%d>%s</h%d>\n", level, content, level))
+			fmt.Fprintf(&buf, "<h%d>%s</h%d>\n", level, content, level)
 			continue
 		}
 
@@ -158,7 +158,7 @@ func MarkdownToStorage(md string) string {
 				buf.WriteString("<ul>\n")
 				inBulletList = true
 			}
-			buf.WriteString(fmt.Sprintf("<li>%s</li>\n", formatInline(m[1])))
+			fmt.Fprintf(&buf, "<li>%s</li>\n", formatInline(m[1]))
 			continue
 		}
 
@@ -172,20 +172,20 @@ func MarkdownToStorage(md string) string {
 				buf.WriteString("<ol>\n")
 				inNumList = true
 			}
-			buf.WriteString(fmt.Sprintf("<li>%s</li>\n", formatInline(m[1])))
+			fmt.Fprintf(&buf, "<li>%s</li>\n", formatInline(m[1]))
 			continue
 		}
 
 		// Blockquote
 		if m := blockquoteReg.FindStringSubmatch(trimmed); m != nil {
 			flushLists()
-			buf.WriteString(fmt.Sprintf("<blockquote><p>%s</p></blockquote>\n", formatInline(m[1])))
+			fmt.Fprintf(&buf, "<blockquote><p>%s</p></blockquote>\n", formatInline(m[1]))
 			continue
 		}
 
 		// Normal paragraph
 		flushLists()
-		buf.WriteString(fmt.Sprintf("<p>%s</p>\n", formatInline(trimmed)))
+		fmt.Fprintf(&buf, "<p>%s</p>\n", formatInline(trimmed))
 	}
 
 	if inCodeBlock {
@@ -363,7 +363,7 @@ func renderNode(buf *bytes.Buffer, n *nethtml.Node) {
 		idx := 1
 		for c := n.FirstChild; c != nil; c = c.NextSibling {
 			if strings.ToLower(c.Data) == "li" {
-				buf.WriteString(fmt.Sprintf("%d. ", idx))
+				fmt.Fprintf(buf, "%d. ", idx)
 				var itemBuf bytes.Buffer
 				renderChildren(&itemBuf, c)
 				buf.WriteString(strings.TrimSpace(itemBuf.String()))
@@ -379,7 +379,7 @@ func renderNode(buf *bytes.Buffer, n *nethtml.Node) {
 		renderChildren(&textBuf, n)
 		text := textBuf.String()
 		if href != "" {
-			buf.WriteString(fmt.Sprintf("[%s](%s)", text, href))
+			fmt.Fprintf(buf, "[%s](%s)", text, href)
 		} else {
 			buf.WriteString(text)
 		}
